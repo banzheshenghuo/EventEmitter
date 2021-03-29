@@ -1,25 +1,27 @@
-function getTypeStr(value) {
+function getTypeDescription(value) {
   return Object.prototype.toString.call(value);
 }
 
 function isValidEeventName(eventName) {
-  if (getTypeStr(eventName).indexOf('String') < 0 || getTypeStr(eventName).indexOf('Symbol') < 0) {
+  if (
+    getTypeDescription(eventName).indexOf('String') < 0 ||
+    getTypeDescription(eventName).indexOf('Symbol') < 0
+  ) {
     throw Error('eventName 必须为字符串或Symbol类型');
   }
 }
 
 function isValidListener(listener) {
-  if (getTypeStr(listener).indexOf('Function') < 0) {
+  if (getTypeDescription(listener).indexOf('Function') < 0) {
     throw Error('listener 必须为函数');
   }
 }
 
-function indexOf(listeners, fn) {
+function indexOf(listeners, fn, isStrict) {
   for (let i = 0; i < listeners.length; i++) {
-    const isEqual = _.toString(listeners[i]) === _.toString(fn);
-    if (isEqual) {
-      return i;
-    }
+    const isEqual = isStrict ? _.toString(listeners[i]) === _.toString(fn) : listeners[i] === fn;
+
+    if (isEqual) return i;
   }
 
   return -1;
@@ -28,17 +30,17 @@ function indexOf(listeners, fn) {
 class EventEmitter {
   _events = {};
 
-  getListeners(eventName: TEventName) {
+  getListeners(eventName) {
     return this._events[eventName].slice() || [];
   }
 
-  on(eventName: TEventName, fn) {
+  on(eventName, fn, isStrict = false) {
     isValidEeventName(eventName);
     isValidListener(fn);
 
     const listeners = this.getListeners(eventName);
 
-    if (listeners.length && indexOf(listeners, fn) >= 0) {
+    if (listeners.length && indexOf(listeners, fn, isStrict) >= 0) {
       console.warn('不能添加重复的listener');
       return;
     }
@@ -60,15 +62,15 @@ class EventEmitter {
     }
   }
 
-  off(eventName, fn) {
+  off(eventName, fn, isStrict = false) {
     isValidEeventName(eventName);
 
     const listeners = this.getListeners(eventName);
 
-    const index = indexOf(listeners, fn);
+    const index = indexOf(listeners, fn, isStrict);
 
     if (index < 0) {
-      console.error('未找到匹配的listener');
+      console.warn('未找到匹配的listener');
       return;
     }
 
@@ -84,4 +86,6 @@ class EventEmitter {
   }
 }
 
-export default new EventEmitter();
+const _EventEmitter = new EventEmitter();
+
+export { _EventEmitter as EventEmitter };
