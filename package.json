@@ -1,0 +1,26 @@
+{
+  "name": "eventemitter",
+  "version": "1.0.0",
+  "description": "一个简单的 EventEmitter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/banzheshenghuo/EventEmitter.git"
+  },
+  "keywords": [
+    "EventEmitter"
+  ],
+  "author": "banzheshenghuo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/banzheshenghuo/EventEmitter/issues"
+  },
+  "homepage": "https://github.com/banzheshenghuo/EventEmitter#readme",
+  "devDependencies": {
+    "eslint": "^7.23.0",
+    "eslint-config-prettier": "^8.1.0"
+  }
+}
