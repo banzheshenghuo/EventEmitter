@@ -6,7 +6,7 @@ import { eslint } from 'rollup-plugin-eslint';
 export default {
   input: 'index.js',
   output: {
-    file: 'dist/bundle.js',
+    file: 'lib/index.js',
     format: 'cjs',
   },
   plugins: [

@@ -18,7 +18,7 @@
 ## 安装
 
 ```sh
-npm install
+npm install @antan/eventemitter
 ```
 
 ## API
