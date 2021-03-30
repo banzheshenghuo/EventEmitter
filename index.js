@@ -32,19 +32,22 @@ function indexOf(listeners, fn, isStrict) {
 }
 
 class EventEmitter {
-  _events = {};
+  constructor(isStrict = false) {
+    this._events = {};
+    this.isStrict = isStrict;
+  }
 
   getListeners(eventName) {
     return this._events[eventName].slice() || [];
   }
 
-  on(eventName, fn, isStrict = false) {
+  on(eventName, fn) {
     isValidEeventName(eventName);
     isValidListener(fn);
 
     const listeners = this.getListeners(eventName);
 
-    if (listeners.length && indexOf(listeners, fn, isStrict) >= 0) {
+    if (listeners.length && indexOf(listeners, fn, this.isStrict) >= 0) {
       console.warn('不能添加重复的listener');
       return;
     }
@@ -66,12 +69,12 @@ class EventEmitter {
     }
   }
 
-  off(eventName, fn, isStrict = false) {
+  off(eventName, fn) {
     isValidEeventName(eventName);
 
     const listeners = this.getListeners(eventName);
 
-    const index = indexOf(listeners, fn, isStrict);
+    const index = indexOf(listeners, fn, this.isStrict);
 
     if (index < 0) {
       console.warn('未找到匹配的listener');
