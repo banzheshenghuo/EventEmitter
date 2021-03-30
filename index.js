@@ -18,13 +18,17 @@ function isValidListener(listener) {
 }
 
 function indexOf(listeners, fn, isStrict) {
+  let index = -1;
   for (let i = 0; i < listeners.length; i++) {
-    const isEqual = isStrict ? _.toString(listeners[i]) === _.toString(fn) : listeners[i] === fn;
+    const isEqual = isStrict ? listeners[i].toString() === fn.toString() : listeners[i] === fn;
 
-    if (isEqual) return i;
+    if (isEqual) {
+      index = i;
+      break;
+    }
   }
 
-  return -1;
+  return index;
 }
 
 class EventEmitter {
